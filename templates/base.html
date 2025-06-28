@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}My Website{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 60%;
+        margin: 20px auto;
+      }
+      th,
+      td {
+        border: 1px solid #888;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+
+      canvas {
+        display: block;
+        margin: 30px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/data">Data</a>
+      <a href="/tentang">Tentang</a>
+      <a href="/kontak">Kontak</a>
+    </nav>
+    <main>{% block content %}{% endblock %}</main>
+  </body>
+</html>

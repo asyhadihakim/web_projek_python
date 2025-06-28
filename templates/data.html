@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% block title %}Data{% endblock %} {% block content
+%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h1>Data Mahasiswa</h1>
+<table>
+  <thead>
+    <tr>
+      <th>No</th>
+      {% for header in headers %}
+      <th>{{header}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for data in data %}
+    <tr>
+      <td>{{loop.index}}</td>
+      <td>{{data['name']}}</td>
+      <td>{{data['age']}}</td>
+      <td>{{data['city']}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 style="text-align: center">Grafik Usia</h2>
+<canvas id="barChart" width="600" height="400"></canvas>
+<canvas id="pieChart" width="600" height="400"></canvas>
+
+<script>
+    const ctx = document.getElementById("barChart").getContext("2d");
+    const chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: {{ labels|tojson }},
+        datasets: [
+          {
+            label: "Usia",
+            data: {{ values|tojson }},
+            backgroundColor: "rgba(54, 162, 235, 0.7)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true },
+        },
+      },
+    });
+
+  const ctx2 = document.getElementById("pieChart").getContext("2d");
+    const chart2 = new Chart(ctx2, {
+      type: "pie",
+      data: {
+        labels: {{ labels|tojson }},
+        datasets: [
+          {
+            label: "Usia",
+            data: {{ values|tojson }},
+            backgroundColor: "rgba(54, 162, 235, 0.7)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true },
+        },
+      },
+    });
+</script>
+{% endblock %}
