@@ -1,0 +1,92 @@
+{% extends 'base.html' %} {% block title %}Data Marathon{% endblock %} {% block
+content %}
+<style>
+  .pagination a {
+    text-decoration: none;
+    padding: 6px 10px;
+    margin: 2px;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 5px;
+  }
+  .pagination strong {
+    padding: 6px 10px;
+    margin: 2px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+  }
+</style>
+
+<h1>Data Marathon Boston</h1>
+<form method="get" action="{{ url_for('boston') }}" style="margin-bottom: 20px">
+  <input
+    type="text"
+    name="country"
+    placeholder="Cari Negara"
+    value="{{ filter_country }}"
+  />
+  <input
+    type="number"
+    name="min_age"
+    placeholder="Usia Minimum"
+    value="{{ min_age }}"
+  />
+  <input
+    type="number"
+    name="max_age"
+    placeholder="Usia Maksimum"
+    value="{{ max_age }}"
+  />
+  <input type="submit" value="Filter" />
+</form>
+
+<table>
+  <thead>
+    <tr>
+      {% for header in headers %}
+      <th>{{header}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for data in data %}
+    <tr>
+      <td>{{data['Ranking']}}</td>
+      <td>{{data['Age']}}</td>
+      <td>{{data['Gender']}}</td>
+      <td>{{data['Country']}}</td>
+      <td>{{data['Result_hr']}}</td>
+      <td>{{data['Result_sec']}}</td>
+      <td>{{data['Rank_Gender']}}</td>
+      <td>{{data['Country_code']}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Navigasi Halaman -->
+
+<div class="pagination">
+  {% if current_page > 1 %}
+  <a
+    href="{{ url_for('boston', page=current_page - 1, country=filter_country, min_age=min_age, max_age=max_age) }}"
+    >« Previous</a
+  >
+  {% endif %}
+
+  <span>Page {{ current_page }} of {{ total_pages }}</span>
+
+  {% if current_page < total_pages %}
+  <a
+    href="{{ url_for('boston', page=current_page + 1, country=filter_country, min_age=min_age, max_age=max_age) }}"
+    >Next »</a
+  >
+  {% endif %}
+</div>
+
+<h2 style="text-align: center">Grafik</h2>
+<canvas id="barChart" width="600" height="400"></canvas>
+<canvas id="pieChart" width="600" height="400"></canvas>
+
+{% endblock %}
